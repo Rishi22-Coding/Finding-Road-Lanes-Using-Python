@@ -7,6 +7,12 @@ def canny(image):
     canny=cv2.Canny(blur, 50, 150)
     return canny
 
+def display_lines(image, lines):
+    line_image=np.zeros_like(image)
+    if lines is not None:
+        for line in lines:
+            print(line)
+
 def region_of_interest(image):
     height=image.shape[0]
     polygons=np.array([[(200, height), (1100, height), (550, 250)]])
@@ -19,5 +25,7 @@ image =cv2.imread('./img/test_image.jpg')
 lane_image=np.copy(image)
 canny=canny(lane_image)
 cropped_image=region_of_interest(canny)
+lines=cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
+line_image=display_lines(lane_image, lines)
 cv2.imshow('reasult', cropped_image)
 cv2.waitKey(0)
