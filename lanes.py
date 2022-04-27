@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+from cv2 import VideoCapture
+from cv2 import waitKey
 
 def make_coordinates(image, line_parametres):
     slope, intercept=line_parametres
@@ -56,7 +58,8 @@ def region_of_interest(image):
     masked_image=cv2.bitwise_and(image, mask)
     return masked_image
 
-image =cv2.imread('./img/test_image.jpg')
+#Algo for image
+image =cv2.imread("./img/test_image.jpg")
 lane_image=np.copy(image)
 canny_image=canny(lane_image)
 cropped_image=region_of_interest(canny_image)
@@ -67,3 +70,17 @@ combo_image=cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 #cv2.imshow('reasult', line_image)
 cv2.imshow('reasult', combo_image)
 cv2.waitKey(0)
+
+#Same Algo For Video
+# capt=cv2.videoCapture('./vid/test2.mp4')
+# while(capt.isOpened()):
+#     _, frame=capt.read()
+#     canny_image=canny(lane_vid)
+#     cropped_image=region_of_interest(canny_image)
+#     lines=cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
+#     averaged_lines=average_slope_intercept(lane_image, lines)
+#     line_image=display_lines(lane_vid, averaged_lines)
+#     combo_image=cv2.addWeighted(lane_vid, 0.8, line_image, 1, 1)
+#     #cv2.imshow('reasult', line_image)
+#     cv2.imshow('reasult', combo_image)
+#     cv2.waitKey(1)
